@@ -4,7 +4,10 @@
 #include "command.h"
 
 
-
+/**
+ * Initialise l'application, lance la boucle principale de commandes 
+ * et gère les codes de retour.
+ */
 
 
 int main() {

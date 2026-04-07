@@ -1,6 +1,11 @@
 #include "render.h"
 #include <string.h>
 
+
+/**
+ * Remplit toute la grille avec des cellules vides
+ * @param area
+ */
 void clear_area(Area * area) {
     for (unsigned int i = 0; i < area->height; i++) {
         for (unsigned int j = 0; j < area->width; j++) {
@@ -9,6 +14,11 @@ void clear_area(Area * area) {
     }
 }
 
+
+/**
+ * 
+ * @param area
+ */
 void draw_area(Area * area) {
     for (unsigned int i = 0; i < area->height; i++) {
         for (unsigned int j = 0; j < area->width; j++) {
@@ -26,6 +36,10 @@ void draw_area(Area * area) {
 }
 
 
+/**
+ * 
+ * @param area
+ */
 void clear_screen() {
 
 #ifdef __linux__
@@ -39,6 +53,10 @@ void clear_screen() {
 }
 
 
+/**
+ * 
+ * @param area
+ */
 void draw_all_layers(Area * area) {
     clear_area(area);
     list *layer_list = area->lst_layers;
@@ -55,6 +73,10 @@ void draw_all_layers(Area * area) {
 
 
 
+/**
+ * 
+ * @param area
+ */
 void draw_layer_shapes(Area * area, Layer * layer) {
     list shape_list = layer->shapes;
 
