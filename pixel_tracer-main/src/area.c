@@ -1,6 +1,14 @@
 #include "area.h"
 
-
+/**
+ * Alloue et initialise une aire avec sa grille, et 
+ * cree automatiquement une liste de calques vide.
+ * 
+ * @param width
+ * @param height
+ * @param id
+ * @param name
+ */
 Area *create_area(unsigned int width,
                   unsigned int height, unsigned char id, char *name) {
     Area *ptr_area = (Area *) malloc(sizeof(Area));
@@ -18,6 +26,12 @@ Area *create_area(unsigned int width,
     return ptr_area;
 }
 
+
+/**
+ * Libère la grille et les calques
+ * 
+ * @param area
+ */
 void delete_area(Area * area) {
     // todo: delate layers
     for (unsigned int i = 0; i < area->height; i++) {
@@ -27,6 +41,10 @@ void delete_area(Area * area) {
 }
 
 
+/**
+ * Cree une liste chaînée d'aires
+ * 
+ */
 AreaList *create_area_list() {
     AreaList *lst_area;
     lst_area = lst_create_list();
@@ -35,17 +53,37 @@ AreaList *create_area_list() {
 
 }
 
+
+/**
+ * Supprime la liste et libere les aires
+ * 
+ * @param area_list
+ */
 void delete_area_list(AreaList * area_list) {
     /* TODO : delete all layers on the list */
     lst_delete_list(area_list);
 
 }
 
+
+/**
+ * Insère une aire en queue de liste
+ * 
+ * @param area_list
+ * @param area
+ */
 void add_area_to_list(AreaList * area_list, Area * area) {
     lnode *l = lst_create_lnode(area);
     lst_insert_tail(area_list, l);
 }
 
+
+/**
+ * Supprime une aire en queue de liste
+ * 
+ * @param area_list
+ * @param area
+ */
 void remove_area_from_list(AreaList * area_list, Area * area) {
     /* TODO  */
 

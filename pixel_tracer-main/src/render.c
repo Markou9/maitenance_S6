@@ -16,7 +16,7 @@ void clear_area(Area * area) {
 
 
 /**
- * 
+ * Affiche la grille caractère par caractère
  * @param area
  */
 void draw_area(Area * area) {
@@ -37,8 +37,8 @@ void draw_area(Area * area) {
 
 
 /**
+ * Efface le terminal 
  * 
- * @param area
  */
 void clear_screen() {
 
@@ -74,8 +74,10 @@ void draw_all_layers(Area * area) {
 
 
 /**
+ * Parcourt toutes les formes d'un calque puis les convertit en pixels et les place dans la grille
  * 
  * @param area
+ * @param layer
  */
 void draw_layer_shapes(Area * area, Layer * layer) {
     list shape_list = layer->shapes;
