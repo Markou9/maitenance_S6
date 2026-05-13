@@ -1,3 +1,13 @@
+/**
+ * @file command.c
+ * @brief Interpréteur de commandes du Pixel Tracer.
+ * @details Ce module lit les commandes utilisateur, les analyse, les valide
+ * et déclenche les actions correspondantes sur l’application (création de formes,
+ * gestion des calques, sélection, suppression, etc.).
+ * @author Maryam et Younes
+ * @date 2026
+ */
+
 #include "command.h"
 
 static unsigned int error_num = 0;
@@ -15,7 +25,10 @@ static char *error_messages[] = {
         /* liste à compléter */
 };
 
-
+/**
+ * @brief Crée une nouvelle commande vide.
+ * @return Pointeur vers la commande créée.
+ */
 Command *create_commande() {
     Command *cmd = (Command *) malloc(sizeof(Command));
     cmd->name[0] = '\0';
@@ -26,11 +39,9 @@ Command *create_commande() {
 }
 
 /**
- * @brief : Ajoute un paramètre entier à la commande 
- * 
- * @param cmd
- * @param p
- * 
+ * @brief Ajoute un paramètre entier à la commande.
+ * @param cmd Commande cible.
+ * @param p Valeur entière à ajouter.
  */
 void add_int_param(Command * cmd, int p) {
     if (cmd->int_size >= MAX_PARAM - 1)
@@ -41,11 +52,9 @@ void add_int_param(Command * cmd, int p) {
 
 
 /**
- * @brief : Ajoute un paramètre flottant à la commande
- * 
- * @param cmd
- * @param p
- * 
+ * @brief Ajoute un paramètre flottant à la commande.
+ * @param cmd Commande cible.
+ * @param p Valeur flottante à ajouter.
  */
 void add_float_param(Command * cmd, float p) {
     if (cmd->flt_size >= MAX_PARAM - 1)
@@ -54,7 +63,11 @@ void add_float_param(Command * cmd, float p) {
     cmd->flt_size = cmd->flt_size + 1;
 }
 
-
+/**
+ * @brief Ajoute un paramètre chaîne à la commande.
+ * @param cmd Commande cible.
+ * @param p Chaîne à ajouter.
+ */
 void add_str_param(Command * cmd, char *p) {
     if (cmd->str_size >= MAX_PARAM - 1)
         return;
@@ -66,10 +79,8 @@ void add_str_param(Command * cmd, char *p) {
 
 
 /**
- * @brief : Libère les chaînes allouées dans la commande
- * 
- * @param cmd
- * 
+ * @brief Libère les chaînes allouées dans une commande.
+ * @param cmd Commande à libérer.
  */
 void free_cmd(Command * cmd) {
     int i;
@@ -80,10 +91,8 @@ void free_cmd(Command * cmd) {
 
 
 /**
- * @brief : Convertit une chaîne en minuscules 
- * 
- * @param str
- * 
+ * @brief Convertit une chaîne en minuscules.
+ * @param str Chaîne à modifier.
  */
 void strlwr2(char *str) {
     int i;
@@ -96,10 +105,9 @@ void strlwr2(char *str) {
 
 
 /**
- * @brief : Retourne 1 si la chaîne est un entier positif
- * 
- * @param str
- * 
+ * @brief Vérifie si une chaîne est un entier positif.
+ * @param str Chaîne à tester.
+ * @return 1 si entier, 0 sinon.
  */
 int is_int(const char *str) {
     int i;
@@ -113,10 +121,9 @@ int is_int(const char *str) {
 
 
 /**
- * @brief : Retourne 1 si la chaîne ne contient que des lettres minuscules
- * 
- * @param str
- * 
+ * @brief Vérifie si une chaîne est un mot (minuscules uniquement).
+ * @param str Chaîne à tester.
+ * @return 1 si mot valide, 0 sinon.
  */
 int is_word(const char *str) {
     int i;
@@ -129,11 +136,9 @@ int is_word(const char *str) {
 }
 
 /**
- * @brief : Retourne 1 si la chaîne est un décimal positif
- * 
- * @param cmd
- * @param p
- * 
+ * @brief Vérifie si une chaîne est un nombre flottant positif.
+ * @param str Chaîne à tester.
+ * @return 1 si float valide, 0 sinon.
  */
 int is_float(const char *str) {
     return 0;                   /* TODO  */
@@ -141,10 +146,8 @@ int is_float(const char *str) {
 
 
 /**
- * @brief : Met la chaine de caractère en minuscules, supprime les commentaires et aux retours à la ligne
- * 
- * @param str
- * 
+ * @brief Nettoie une ligne de texte (minuscules, suppression commentaires).
+ * @param str Chaîne à nettoyer.
  */
 void clean_text(char *str) {
     int i = 0;
@@ -165,10 +168,8 @@ void clean_text(char *str) {
 
 
 /**
- * @brief : Lit des lignes
- * 
- * @param cmd
- * 
+ * @brief Lit une commande depuis l'entrée standard.
+ * @param cmd Commande à remplir.
  */
 void read_from_stdin(Command * cmd) {
     char *str1, *token;
@@ -206,10 +207,8 @@ void read_from_stdin(Command * cmd) {
 }
 
 /**
- * @brief : Affiche le contenu d'une commande pour le débogage
- * 
- * @param cmd
- * 
+ * @brief Affiche la commande pour debug.
+ * @param cmd Commande à afficher.
  */
 void debug_cmd(Command * cmd) {
     printf("\n --- \n");
@@ -228,9 +227,7 @@ void debug_cmd(Command * cmd) {
 }
 
 /**
- * @brief : Affiche l'aide complète de toutes les commandes disponibles
- * 
- * 
+ * @brief Affiche l’aide des commandes disponibles.
  */
 void print_help() {
     printf("\t%s\n", "**************************************************");
@@ -272,13 +269,7 @@ void print_help() {
 }
 
 /**
- * @brief : Vérifie que le nombre de paramètres correspond aux attendus
- * 
- * @param cmd
- * @param nb_str
- * @param nb_int
- * @param nb_flt
- * 
+ * @brief Vérifie le nombre de paramètres.
  */
 int check_nb_params(Command * cmd, int nb_str, int nb_int, int nb_flt) {
     if (cmd->str_size != nb_str)
@@ -290,6 +281,10 @@ int check_nb_params(Command * cmd, int nb_str, int nb_int, int nb_flt) {
     return 1;
 }
 
+
+/**
+ * @brief Vérifie les paramètres d’un polygone.
+ */
 int check_nb_params_polygon(Command * cmd) {
     if (cmd->str_size != 1)
         return 0;
@@ -303,10 +298,9 @@ int check_nb_params_polygon(Command * cmd) {
 
 
 /**
- * @brief : Lit et exécute une commande complète pui retourne le code d'erreur
- * 
- * @param app
- * 
+ * @brief Lit et exécute une commande utilisateur.
+ * @param app Application principale.
+ * @return Code d’erreur/état.
  */
 int read_exec_command(Pixel_tracer_app * app) {
     error_num = 1;

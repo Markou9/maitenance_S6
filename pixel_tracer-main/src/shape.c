@@ -1,3 +1,12 @@
+/**
+ * @file shape.c
+ * @brief Gestion des formes géométriques.
+ * @details Ce fichier contient les fonctions de création,
+ * suppression et sérialisation des différentes formes géométriques.
+ * @author Maryam et Younes
+ * @date 2026
+ */
+
 #include <string.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -5,7 +14,12 @@
 #include "id.h"
 #include "shape.h"
 
-
+/**
+ * @brief Alloue et initialise un point.
+ * @param px Coordonnée X du point.
+ * @param py Coordonnée Y du point.
+ * @return Pointeur vers le point créé.
+ */
 Point *create_point(int px, int py) {
     Point *p = (Point *) malloc(sizeof(Point));
     p->pos_x = px;
@@ -13,10 +27,22 @@ Point *create_point(int px, int py) {
     return p;
 }
 
+
+/**
+ * @brief Libère la mémoire d'un point.
+ * @param point Point à supprimer.
+ */
 void delete_point(Point * point) {
     free(point);
 }
 
+
+/**
+ * @brief Crée une ligne entre deux points.
+ * @param p1 Premier point.
+ * @param p2 Second point.
+ * @return Pointeur vers la ligne créée.
+ */
 Line *create_line(Point * p1, Point * p2) {
     Line *l = (Line *) malloc(sizeof(Line));
     l->p1 = p1;
@@ -24,12 +50,24 @@ Line *create_line(Point * p1, Point * p2) {
     return l;
 }
 
+
+/**
+ * @brief Libère la mémoire d'une ligne.
+ * @param line Ligne à supprimer.
+ */
 void delete_line(Line * line) {
     delete_point(line->p1);
     delete_point(line->p2);
     free(line);
 }
 
+
+/**
+ * @brief Crée un carré.
+ * @param point Point d'origine du carré.
+ * @param length Longueur du côté.
+ * @return Pointeur vers le carré créé.
+ */
 Squar *create_squar(Point * point, int length) {
     Squar *squar = (Squar *) malloc(sizeof(Squar));
     squar->p1 = point;
@@ -37,11 +75,24 @@ Squar *create_squar(Point * point, int length) {
     return squar;
 }
 
+
+/**
+ * @brief Libère la mémoire d'un carré.
+ * @param squar Carré à supprimer.
+ */
 void delete_squar(Squar * squar) {
     delete_point(squar->p1);
     free(squar);
 }
 
+
+/**
+ * @brief Crée un rectangle.
+ * @param point Point d'origine du rectangle.
+ * @param width Largeur du rectangle.
+ * @param height Hauteur du rectangle.
+ * @return Pointeur vers le rectangle créé.
+ */
 Rectangle *create_rectangle(Point * point, int width, int height) {
     Rectangle *rec = (Rectangle *) malloc(sizeof(Rectangle));
     rec->p1 = point;
@@ -50,11 +101,23 @@ Rectangle *create_rectangle(Point * point, int width, int height) {
     return rec;
 }
 
+
+/**
+ * @brief Libère la mémoire d'un rectangle.
+ * @param rectangle Rectangle à supprimer.
+ */
 void delete_rectangle(Rectangle * rectangle) {
     delete_point(rectangle->p1);
     free(rectangle);
 }
 
+
+/**
+ * @brief Crée un cercle.
+ * @param center Centre du cercle.
+ * @param radus Rayon du cercle.
+ * @return Pointeur vers le cercle créé.
+ */
 Cercle *create_cercle(Point * center, int radus) {
     Cercle *cercle = (Cercle *) malloc(sizeof(Cercle));
     cercle->center = center;
@@ -62,11 +125,22 @@ Cercle *create_cercle(Point * center, int radus) {
     return cercle;
 }
 
+
+/**
+ * @brief Libère la mémoire d'un cercle.
+ * @param cercle Cercle à supprimer.
+ */
 void delete_cercle(Cercle * cercle) {
     delete_point(cercle->center);
     free(cercle);
 }
 
+
+/**
+ * @brief Crée un polygone à n sommets.
+ * @param n Nombre de sommets du polygone.
+ * @return Pointeur vers le polygone créé.
+ */
 Polygon *create_polygon(int n) {
     Polygon *poly = (Polygon *) malloc(sizeof(Polygon));
     poly->points = (Point **) malloc(sizeof(Point *) * n);
@@ -77,6 +151,11 @@ Polygon *create_polygon(int n) {
     return poly;
 }
 
+
+/**
+ * @brief Libère la mémoire d'un polygone.
+ * @param polygon Polygone à supprimer.
+ */
 void delete_polygon(Polygon * polygon) {
     for (int i = 0; i < polygon->n; i++) {
         delete_point(polygon->points[i]);
@@ -85,7 +164,14 @@ void delete_polygon(Polygon * polygon) {
     free(polygon);
 }
 
-
+/**
+ * @brief Crée une courbe de Bézier à quatre points.
+ * @param p1 Premier point de contrôle.
+ * @param p2 Deuxième point de contrôle.
+ * @param p3 Troisième point de contrôle.
+ * @param p4 Quatrième point de contrôle.
+ * @return Pointeur vers la courbe créée.
+ */
 Curve *create_curve(Point * p1, Point * p2, Point * p3, Point * p4) {
     Curve *cur = (Curve *) malloc(sizeof(Curve));
     cur->p1 = p1;
@@ -95,6 +181,10 @@ Curve *create_curve(Point * p1, Point * p2, Point * p3, Point * p4) {
     return cur;
 }
 
+/**
+ * @brief Libère la mémoire d'une courbe de Bézier.
+ * @param curve Courbe à supprimer.
+ */
 void delete_curve(Curve * curve) {
     delete_point(curve->p1);
     delete_point(curve->p2);
@@ -103,7 +193,11 @@ void delete_curve(Curve * curve) {
     free(curve);
 }
 
-
+/**
+ * @brief Crée une forme vide avec un type donné.
+ * @param shape_type Type de la forme.
+ * @return Pointeur vers la forme créée.
+ */
 Shape *create_empty_shape(Shape_type shape_type) {
     Shape *shp = (Shape *) malloc(sizeof(Shape));
     shp->id = get_next_id();
@@ -115,10 +209,20 @@ Shape *create_empty_shape(Shape_type shape_type) {
     return shp;
 }
 
+/**
+ * @brief Sérialise un point dans une chaîne de caractères.
+ * @param p Point à sérialiser.
+ * @param str Buffer de destination.
+ */
 void sprint_point(Point * p, char *str) {
     sprintf(str, "%d %d", p->pos_x, p->pos_y);
 }
 
+/**
+ * @brief Sérialise une ligne dans une chaîne de caractères.
+ * @param line Ligne à sérialiser.
+ * @param str Buffer de destination.
+ */
 void sprint_line(Line * line, char *str) {
     char str1[50];
     char str2[50];
@@ -127,25 +231,47 @@ void sprint_line(Line * line, char *str) {
     sprintf(str, "%s %s", str1, str2);
 }
 
+
+/**
+ * @brief Sérialise un carré dans une chaîne de caractères.
+ * @param squar Carré à sérialiser.
+ * @param str Buffer de destination.
+ */
 void sprint_squar(Squar * squar, char *str) {
     char str1[50];
     sprint_point(squar->p1, str1);
     sprintf(str, "%s %d %d", str1, squar->length, squar->length);
-
 }
 
+/**
+ * @brief Sérialise un rectangle dans une chaîne de caractères.
+ * @param rectangle Rectangle à sérialiser.
+ * @param str Buffer de destination.
+ */
 void sprint_rectangle(Rectangle * rectangle, char *str) {
     char str1[50];
     sprint_point(rectangle->p1, str1);
     sprintf(str, "%s %d %d ", str1, rectangle->width, rectangle->height);
 }
 
+
+/**
+ * @brief Sérialise un cercle dans une chaîne de caractères.
+ * @param cercle Cercle à sérialiser.
+ * @param str Buffer de destination.
+ */
 void sprint_cercle(Cercle * cercle, char *str) {
     char str1[50];
     sprint_point(cercle->center, str1);
     sprintf(str, "%s %d", str1, cercle->radus);
 }
 
+
+/**
+ * @brief Sérialise un polygone dans une chaîne de caractères.
+ * @param polygon Polygone à sérialiser.
+ * @param str Buffer de destination.
+ */
 void sprint_polygon(Polygon * polygon, char *str) {
     char str_res[200] = { 0 };
     char str1[50];
@@ -159,6 +285,12 @@ void sprint_polygon(Polygon * polygon, char *str) {
     sprintf(str, str_res);
 }
 
+
+/**
+ * @brief Sérialise une courbe de Bézier dans une chaîne de caractères.
+ * @param curve Courbe à sérialiser.
+ * @param str Buffer de destination.
+ */
 void sprint_curve(Curve * curve, char *str) {
     char str1[50], str2[50], str3[50], str4[50];
     sprint_point(curve->p1, str1);
@@ -168,8 +300,12 @@ void sprint_curve(Curve * curve, char *str) {
     sprintf(str, "%s %s %s %s", str1, str2, str3, str4);
 }
 
+
 /**
- * Export Only 
+ * @brief Crée une forme de type point.
+ * @param px Coordonnée X.
+ * @param py Coordonnée Y.
+ * @return Forme contenant un point.
  */
 Shape *create_point_shape(int px, int py) {
     Shape *shp = create_empty_shape(POINT);
@@ -178,6 +314,15 @@ Shape *create_point_shape(int px, int py) {
     return shp;
 }
 
+
+/**
+ * @brief Crée une forme de type ligne.
+ * @param px1 Coordonnée X du premier point.
+ * @param py1 Coordonnée Y du premier point.
+ * @param px2 Coordonnée X du second point.
+ * @param py2 Coordonnée Y du second point.
+ * @return Forme contenant une ligne.
+ */
 Shape *create_line_shape(int px1, int py1, int px2, int py2) {
     Shape *shp = create_empty_shape(LINE);
     Point *p1 = create_point(px1, py1);
@@ -186,6 +331,14 @@ Shape *create_line_shape(int px1, int py1, int px2, int py2) {
     return shp;
 }
 
+
+/**
+ * @brief Crée une forme de type carré.
+ * @param px Coordonnée X du point d'origine.
+ * @param py Coordonnée Y du point d'origine.
+ * @param length Longueur du côté.
+ * @return Forme contenant un carré.
+ */
 Shape *create_square_shape(int px, int py, int length) {
     Shape *shp = create_empty_shape(SQUAR);
     Point *p = create_point(px, py);
@@ -193,6 +346,15 @@ Shape *create_square_shape(int px, int py, int length) {
     return shp;
 }
 
+
+/**
+ * @brief Crée une forme de type rectangle.
+ * @param px Coordonnée X du point d'origine.
+ * @param py Coordonnée Y du point d'origine.
+ * @param width Largeur.
+ * @param height Hauteur.
+ * @return Forme contenant un rectangle.
+ */
 Shape *create_rectangle_shape(int px, int py, int width, int height) {
     Shape *shp = create_empty_shape(RECTANGLE);
     Point *p = create_point(px, py);
@@ -200,6 +362,14 @@ Shape *create_rectangle_shape(int px, int py, int width, int height) {
     return shp;
 }
 
+
+/**
+ * @brief Crée une forme de type cercle.
+ * @param px Coordonnée X du centre.
+ * @param py Coordonnée Y du centre.
+ * @param radus Rayon du cercle.
+ * @return Forme contenant un cercle.
+ */
 Shape *create_cercle_shape(int px, int py, int radus) {
     Shape *shp = create_empty_shape(CERCLE);
     Point *p = create_point(px, py);
@@ -207,6 +377,13 @@ Shape *create_cercle_shape(int px, int py, int radus) {
     return shp;
 }
 
+
+/**
+ * Crée une forme de type polygone.
+ * n Nombre total de coordonnées (x,y).
+ * tab Tableau des coordonnées.
+ * return Forme contenant un polygone ou NULL si invalide.
+ 
 Shape *create_polygon_shape(int n, int *tab) {
     if (n % 2 != 0) {
         return NULL;
@@ -221,29 +398,21 @@ Shape *create_polygon_shape(int n, int *tab) {
     shp->ptrShape = poly;
     return shp;
 }
+    */
 
-/*
-Shape *create_polygon_shape(int n, ...) {
-    if (n % 2 != 0) {
-        return NULL;
-    }
-    Shape *shp = create_empty_shape(POLYGON);
-    Polygon *poly = create_polygon(n);
-    va_list ptr;
-    va_start(ptr, n);
-    for (int i = 0; i < n; i++) {
-        int pp1, pp2;
-        pp1 = va_arg(ptr, int);
-        pp2 = va_arg(ptr, int);
-        Point *point = create_point(pp1, pp2);
-        poly->points[i] = point;
-    }
-    shp->ptrShape = poly;
-    va_end(ptr);
-    return shp;
-}
-*/
 
+/**
+ * @brief Crée une forme de type courbe de Bézier.
+ * @param px1 Coordonnée X du premier point.
+ * @param py1 Coordonnée Y du premier point.
+ * @param px2 Coordonnée X du deuxième point.
+ * @param py2 Coordonnée Y du deuxième point.
+ * @param px3 Coordonnée X du troisième point.
+ * @param py3 Coordonnée Y du troisième point.
+ * @param px4 Coordonnée X du quatrième point.
+ * @param py4 Coordonnée Y du quatrième point.
+ * @return Forme contenant une courbe.
+ */
 Shape *create_curve_shape(int px1, int py1, int px2, int py2, int px3,
                           int py3, int px4, int py4) {
     Shape *shp = create_empty_shape(CURVE);
@@ -256,6 +425,10 @@ Shape *create_curve_shape(int px1, int py1, int px2, int py2, int px3,
 }
 
 
+/**
+ * @brief Libère la mémoire d'une forme.
+ * @param shape Forme à supprimer.
+ */
 void delete_shape(Shape * shape) {
     if (shape->ptrShape == NULL) {
         free(shape);
@@ -288,6 +461,11 @@ void delete_shape(Shape * shape) {
 }
 
 
+/**
+ * @brief Sérialise une forme dans une chaîne de caractères.
+ * @param shape Forme à sérialiser.
+ * @param str Buffer de destination.
+ */
 void sprint_shape(Shape * shape, char *str) {
     if (shape->ptrShape == NULL) {
         return;

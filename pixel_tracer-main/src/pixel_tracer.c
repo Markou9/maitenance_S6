@@ -1,10 +1,19 @@
+/**
+ * @file pixel_tracer.c
+ * @brief Initialisation et destruction de l’application Pixel Tracer.
+ * @details Ce module gère la création de l’environnement de base (aire, calques)
+ * ainsi que la libération des ressources de l’application.
+ * @author Maryam et Younes
+ * @date 2026
+ */
+
 #include "pixel_tracer.h"
 
-
 /**
- * Crée l'aire 'Area1', un calque 'Layer 1'
- * et initialise les pointeurs de l'application
- * @param app
+ * @brief Initialise l’application avec une aire et un calque par défaut.
+ * @details Crée une aire "Area1", un calque "Layer 1" et initialise les pointeurs
+ * principaux de l’application.
+ * @param app Application Pixel Tracer à initialiser.
  */
 void init_app(Pixel_tracer_app * app) {
     app->list_area = create_area_list();
@@ -22,8 +31,9 @@ void init_app(Pixel_tracer_app * app) {
 
 
 /**
- * Libère la mémoire de la liste d'aires et met les pointeurs à null
- * @param app
+ * @brief Libère les ressources de l’application.
+ * @details Supprime la liste des aires et remet tous les pointeurs internes à NULL.
+ * @param app Application Pixel Tracer à détruire.
  */
 void destry_app(Pixel_tracer_app * app) {
     delete_area_list(app->list_area);

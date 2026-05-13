@@ -1,5 +1,22 @@
+/**
+ * @file pixel.c
+ * @brief Conversion des formes en pixels pour le rendu.
+ * @details Ce module transforme les formes géométriques (points, lignes,
+ * cercles, polygones, courbes, etc.) en une liste de pixels exploitables
+ * par le moteur de rendu.
+ * @author Maryam et Younes
+ * @date 2026
+ */
+
 #include "pixel.h"
 
+/**
+ * @brief Crée un pixel.
+ * @param px Coordonnée X.
+ * @param py Coordonnée Y.
+ * @param color Couleur du pixel.
+ * @return Pointeur vers le pixel créé.
+ */
 Pixel *create_pixel(int px, int py, int color) {
     Pixel *pixel = (Pixel *) malloc(sizeof(Pixel));
     pixel->px = px;
@@ -8,11 +25,21 @@ Pixel *create_pixel(int px, int py, int color) {
     return pixel;
 }
 
+
+/**
+ * @brief Libère un pixel.
+ * @param pixel Pixel à supprimer.
+ */
 void delete_pixel(Pixel * pixel) {
     free(pixel);
 }
 
 
+/**
+ * @brief Convertit une forme en liste de pixels.
+ * @param shape Forme à convertir.
+ * @return Liste de pixels ou NULL si la forme est vide.
+ */
 list *create_shape_to_pixel(Shape * shape) {
     if (shape->ptrShape == NULL) {
         return NULL;
@@ -41,23 +68,42 @@ list *create_shape_to_pixel(Shape * shape) {
     case CURVE:
         pixel_curve(shape, lst);
         break;
-
     }
 
     return lst;
 }
 
+
+/**
+ * @brief Libère une liste de pixels associée à une forme.
+ * @param pixel_lst Liste de pixels à supprimer.
+ */
 void remove_pixel_shape(list * pixel_lst) {
 
 }
 
 
+/**
+ * @brief Convertit un point en pixel.
+ * @param shape Forme de type point.
+ * @param lst Liste de pixels.
+ */
 void pixel_point(Shape * shape, list * lst) {
     Point *pt = (Point *) shape->ptrShape;
     Pixel *px = create_pixel(pt->pos_x, pt->pos_y, shape->color);
     lst_insert_tail(lst, lst_create_lnode(px));
 }
 
+
+/**
+ * @brief Trace un segment entre deux points (algorithme incrémental).
+ * @param x Coordonnée de départ X.
+ * @param y Coordonnée de départ Y.
+ * @param dx Différence X.
+ * @param dy Différence Y.
+ * @param color Couleur du segment.
+ * @param lst Liste de pixels.
+ */
 void draw_segment(int x, int y, int dx, int dy, Color color, list * lst) {
     int i, cumul;
     int xinc, yinc;
@@ -98,6 +144,12 @@ void draw_segment(int x, int y, int dx, int dy, Color color, list * lst) {
     }
 }
 
+
+/**
+ * @brief Convertit une ligne en pixels.
+ * @param shape Forme de type ligne.
+ * @param lst Liste de pixels.
+ */
 void pixel_line(Shape * shape, list * lst) {
     Line *p_line = (Line *) shape->ptrShape;
     int dx, dy, x, y;
@@ -109,6 +161,12 @@ void pixel_line(Shape * shape, list * lst) {
     draw_segment(x, y, dx, dy, shape->color, lst);
 }
 
+
+/**
+ * @brief Convertit un cercle en pixels.
+ * @param shape Forme de type cercle.
+ * @param lst Liste de pixels.
+ */
 void pixel_cercle(Shape * shape, list * lst) {
     Cercle *p_cercle = (Cercle *) shape->ptrShape;
     int x = 0;
@@ -120,6 +178,7 @@ void pixel_cercle(Shape * shape, list * lst) {
         px = create_pixel(p_cercle->center->pos_x + x,
                           p_cercle->center->pos_y + y, shape->color);
         lst_insert_tail(lst, lst_create_lnode(px));
+
         px = create_pixel(p_cercle->center->pos_x + y,
                           p_cercle->center->pos_y + x, shape->color);
         lst_insert_tail(lst, lst_create_lnode(px));
@@ -127,6 +186,7 @@ void pixel_cercle(Shape * shape, list * lst) {
         px = create_pixel(p_cercle->center->pos_x - x,
                           p_cercle->center->pos_y + y, shape->color);
         lst_insert_tail(lst, lst_create_lnode(px));
+
         px = create_pixel(p_cercle->center->pos_x - y,
                           p_cercle->center->pos_y + x, shape->color);
         lst_insert_tail(lst, lst_create_lnode(px));
@@ -134,6 +194,7 @@ void pixel_cercle(Shape * shape, list * lst) {
         px = create_pixel(p_cercle->center->pos_x + x,
                           p_cercle->center->pos_y - y, shape->color);
         lst_insert_tail(lst, lst_create_lnode(px));
+
         px = create_pixel(p_cercle->center->pos_x + y,
                           p_cercle->center->pos_y - x, shape->color);
         lst_insert_tail(lst, lst_create_lnode(px));
@@ -141,6 +202,7 @@ void pixel_cercle(Shape * shape, list * lst) {
         px = create_pixel(p_cercle->center->pos_x - x,
                           p_cercle->center->pos_y - y, shape->color);
         lst_insert_tail(lst, lst_create_lnode(px));
+
         px = create_pixel(p_cercle->center->pos_x - y,
                           p_cercle->center->pos_y - x, shape->color);
         lst_insert_tail(lst, lst_create_lnode(px));
@@ -159,6 +221,12 @@ void pixel_cercle(Shape * shape, list * lst) {
     }
 }
 
+
+/**
+ * @brief Convertit un rectangle en pixels.
+ * @param shape Forme rectangle.
+ * @param lst Liste de pixels.
+ */
 void pixel_rectangle(Shape * shape, list * lst) {
     Rectangle *p_rec = (Rectangle *) shape->ptrShape;
     draw_segment(p_rec->p1->pos_x, p_rec->p1->pos_y, 0, p_rec->width - 1,
@@ -169,9 +237,14 @@ void pixel_rectangle(Shape * shape, list * lst) {
                  p_rec->height - 1, 0, shape->color, lst);
     draw_segment(p_rec->p1->pos_x + p_rec->height - 1, p_rec->p1->pos_y, 0,
                  p_rec->width - 1, shape->color, lst);
-
 }
 
+
+/**
+ * @brief Convertit un carré en pixels.
+ * @param shape Forme carré.
+ * @param lst Liste de pixels.
+ */
 void pixel_square(Shape * shape, list * lst) {
     Squar *p_sqaure = (Squar *) shape->ptrShape;
     draw_segment(p_sqaure->p1->pos_x, p_sqaure->p1->pos_y,
@@ -186,6 +259,12 @@ void pixel_square(Shape * shape, list * lst) {
                  shape->color, lst);
 }
 
+
+/**
+ * @brief Convertit un polygone en pixels.
+ * @param shape Forme polygone.
+ * @param lst Liste de pixels.
+ */
 void pixel_polygon(Shape * shape, list * lst) {
 
     Polygon *poly = (Polygon *) shape->ptrShape;
@@ -203,6 +282,9 @@ void pixel_polygon(Shape * shape, list * lst) {
 }
 
 
+/**
+ * @brief Calcule un point intermédiaire pour Bézier.
+ */
 Point calc_point_median(Point * p1, Point * p2, double t) {
     double x = p1->pos_x * (1 - t) + p2->pos_x * t;
     double y = p1->pos_y * (1 - t) + p2->pos_y * t;
@@ -210,7 +292,10 @@ Point calc_point_median(Point * p1, Point * p2, double t) {
     return result;
 }
 
-// calc courbe de Bezier avec  Casteljau
+
+/**
+ * @brief Algorithme de De Casteljau pour Bézier.
+ */
 Point cj_calc(Point ** points, int num_pt, double t) {
     Point tmp_pt[num_pt];
     for (int i = 0; i < num_pt; ++i) {
@@ -225,6 +310,11 @@ Point cj_calc(Point ** points, int num_pt, double t) {
 }
 
 
+/**
+ * @brief Convertit une courbe de Bézier en pixels.
+ * @param shape Forme courbe.
+ * @param lst Liste de pixels.
+ */
 void pixel_curve(Shape * shape, list * lst) {
     Curve *p_curve = (Curve *) shape->ptrShape;
     Point *points[] =

@@ -1,3 +1,13 @@
+/**
+ * @file main.c
+ * @brief Point d’entrée de l’application Pixel Tracer.
+ * @details Lance l’initialisation de l’application, puis exécute la boucle principale
+ * de lecture et d’exécution des commandes utilisateur. Gère également le rendu et
+ * les codes de retour du système de commandes.
+ * @author Maryam et Younes
+ * @date 2026
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "pixel_tracer.h"
@@ -5,11 +15,9 @@
 
 
 /**
- * Initialise l'application, lance la boucle principale de commandes 
- * et gère les codes de retour.
+ * @brief Fonction principale du programme.
+ * @return Code de sortie du programme.
  */
-
-
 int main() {
     Pixel_tracer_app app;
     init_app(&app);

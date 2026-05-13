@@ -1,10 +1,18 @@
+/**
+ * @file render.c
+ * @brief Rendu des aires et des couches.
+ * @details Ce module gère l’affichage d’une aire en console :
+ * nettoyage de la grille, dessin des couches et des formes sous forme de pixels.
+ * @author Maryam et Younes
+ * @date 2026
+ */
+
 #include "render.h"
 #include <string.h>
 
-
 /**
- * Remplit toute la grille avec des cellules vides
- * @param area
+ * @brief Remplit toute la grille avec des cellules vides.
+ * @param area Aire à nettoyer.
  */
 void clear_area(Area * area) {
     for (unsigned int i = 0; i < area->height; i++) {
@@ -16,8 +24,8 @@ void clear_area(Area * area) {
 
 
 /**
- * Affiche la grille caractère par caractère
- * @param area
+ * @brief Affiche la grille caractère par caractère.
+ * @param area Aire à afficher.
  */
 void draw_area(Area * area) {
     for (unsigned int i = 0; i < area->height; i++) {
@@ -37,8 +45,7 @@ void draw_area(Area * area) {
 
 
 /**
- * Efface le terminal 
- * 
+ * @brief Efface le terminal.
  */
 void clear_screen() {
 
@@ -54,8 +61,8 @@ void clear_screen() {
 
 
 /**
- * 
- * @param area
+ * @brief Dessine tous les calques visibles dans l’aire.
+ * @param area Aire contenant les calques.
  */
 void draw_all_layers(Area * area) {
     clear_area(area);
@@ -68,16 +75,13 @@ void draw_all_layers(Area * area) {
         }
         layer_node = get_next_node(layer_list, layer_node);
     }
-
 }
 
 
-
 /**
- * Parcourt toutes les formes d'un calque puis les convertit en pixels et les place dans la grille
- * 
- * @param area
- * @param layer
+ * @brief Convertit et dessine toutes les formes d’un calque dans la grille.
+ * @param area Aire cible.
+ * @param layer Calque à dessiner.
  */
 void draw_layer_shapes(Area * area, Layer * layer) {
     list shape_list = layer->shapes;
