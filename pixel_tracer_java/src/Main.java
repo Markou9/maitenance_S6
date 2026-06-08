@@ -1,61 +1,49 @@
-import shape.*;
-import java.util.ArrayList;
+import app.Command;
+import app.CommandExecutor;
+import app.CommandParser;
+import app.PixelTracerApp;
+import render.ConsoleRenderer;
+import java.util.Scanner;
 
+/**
+ * @file Main.java
+ * @brief Point d'entrée de l'application Pixel Tracer.
+ *
+ * Lance la boucle interactive : lecture de commandes,
+ * exécution, et affichage console.
+ */
 public class Main {
 
     public static void main(String[] args) {
+        PixelTracerApp app = new PixelTracerApp();
+        app.init();
 
-        // Un point
-        Point p1 = new Point();
-        p1.setPos_x(0);
-        p1.setPos_y(0);
-        p1.setColor(0xFF0000); // rouge
-        System.out.println("Point : " + p1);
+        CommandParser  parser   = new CommandParser();
+        CommandExecutor executor = new CommandExecutor();
+        ConsoleRenderer renderer = new ConsoleRenderer();
 
-        // Une ligne entre deux points
-        Point p2 = new Point();
-        p2.setPos_x(10);
-        p2.setPos_y(10);
+        Scanner scanner = new Scanner(System.in);
 
-        Line ligne = new Line();
-        ligne.setP1(p1);
-        ligne.setP2(p2);
-        ligne.setThickness(2.0f);
-        ligne.setColor(0x00FF00); // vert
-        System.out.println("Ligne : " + ligne);
+        System.out.println("Pixel Tracer — tapez 'help' pour la liste des commandes.");
 
-        // Un cercle
-        Point centre = new Point();
-        centre.setPos_x(50);
-        centre.setPos_y(50);
+        while (true) {
+            System.out.print("> ");
+            if (!scanner.hasNextLine()) break;
+            String ligne = scanner.nextLine();
 
-        Circle cercle = new Circle();
-        cercle.setCenter(centre);
-        cercle.setColor(0x0000FF); // bleu
-        System.out.println("Cercle : " + cercle);
+            Command cmd = parser.parser(ligne);
+            int code = executor.executer(app, cmd);
 
-        // Un polygone (triangle)
-        Point a = new Point();
-        a.setPos_x(0);
-        a.setPos_y(0);
+            switch (code) {
+                case 4 -> { System.out.println("Au revoir."); return; }
+                case 5 -> renderer.effacerEcran();
+                case 6 -> renderer.dessiner(app.getAreaCourante());
+                case 3 -> System.out.println("Paramètres invalides.");
+                case 9 -> System.out.println("Identifiant inconnu.");
+                default -> { /* rien */ }
+            }
+        }
 
-        Point b = new Point();
-        b.setPos_x(5);
-        b.setPos_y(10);
-
-        Point c = new Point();
-        c.setPos_x(10);
-        c.setPos_y(0);
-
-        ArrayList<Point> sommets = new ArrayList<>();
-        sommets.add(a);
-        sommets.add(b);
-        sommets.add(c);
-
-        Polygone triangle = new Polygone();
-        triangle.setPoints(sommets);
-        triangle.setFill('X');
-        triangle.setColor(0xFFFF00); // jaune
-        System.out.println("Polygone : " + triangle);
+        scanner.close();
     }
 }

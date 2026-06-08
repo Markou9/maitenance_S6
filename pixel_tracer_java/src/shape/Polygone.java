@@ -2,8 +2,10 @@ package shape;
 
 import java.util.ArrayList;
 
+
 /**
- * Class Polygone
+ * @file Polygone.java
+ * @brief Classe représentant un polygone défini par une liste de points.
  */
 public class Polygone extends Shape {
 
@@ -12,12 +14,12 @@ public class Polygone extends Shape {
   //
 
   private ArrayList<Point> points;
-  
+
   //
   // Constructors
   //
   public Polygone () { };
-  
+
   //
   // Methods
   //
@@ -28,7 +30,7 @@ public class Polygone extends Shape {
   //
 
   /**
-   * Set the value of points
+   * @brief Set the value of points
    * @param newVar the new value of points
    */
   public void setPoints (ArrayList<Point> newVar) {
@@ -36,7 +38,7 @@ public class Polygone extends Shape {
   }
 
   /**
-   * Get the value of points
+   * @brief Get the value of points
    * @return the value of points
    */
   public ArrayList<Point> getPoints () {
@@ -48,6 +50,7 @@ public class Polygone extends Shape {
   //
 
   /**
+   * @brief Returns a string representation of the polygon.
    * @return       String
    */
   public String toString()

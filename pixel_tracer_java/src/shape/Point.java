@@ -2,7 +2,8 @@ package shape;
 
 
 /**
- * Class Point
+ * @file Point.java
+ * @brief Classe représentant un point dans un espace 2D.
  */
 public class Point extends Shape {
 
@@ -12,12 +13,12 @@ public class Point extends Shape {
 
   private int pos_x;
   private int pos_y;
-  
+
   //
   // Constructors
   //
   public Point () { };
-  
+
   //
   // Methods
   //
@@ -28,7 +29,7 @@ public class Point extends Shape {
   //
 
   /**
-   * Set the value of pos_x
+   * @brief Set the value of pos_x
    * @param newVar the new value of pos_x
    */
   public void setPos_x (int newVar) {
@@ -36,7 +37,7 @@ public class Point extends Shape {
   }
 
   /**
-   * Get the value of pos_x
+   * @brief Get the value of pos_x
    * @return the value of pos_x
    */
   public int getPos_x () {
@@ -44,7 +45,7 @@ public class Point extends Shape {
   }
 
   /**
-   * Set the value of pos_y
+   * @brief Set the value of pos_y
    * @param newVar the new value of pos_y
    */
   public void setPos_y (int newVar) {
@@ -52,7 +53,7 @@ public class Point extends Shape {
   }
 
   /**
-   * Get the value of pos_y
+   * @brief Get the value of pos_y
    * @return the value of pos_y
    */
   public int getPos_y () {
@@ -64,6 +65,7 @@ public class Point extends Shape {
   //
 
   /**
+   * @brief Returns a string representation of the point.
    * @return       String
    */
   public String toString()

@@ -2,7 +2,8 @@ package shape;
 
 
 /**
- * Class Shape
+ * @file Shape.java
+ * @brief Classe abstraite de base pour toutes les formes géométriques.
  */
 abstract public class Shape {
 
@@ -15,12 +16,12 @@ abstract public class Shape {
   private float thickness;
   private int color;
   private double rotation;
-  
+
   //
   // Constructors
   //
   public Shape () { };
-  
+
   //
   // Methods
   //
@@ -31,7 +32,7 @@ abstract public class Shape {
   //
 
   /**
-   * Set the value of id
+   * @brief Set the value of id
    * @param newVar the new value of id
    */
   public void setId (long newVar) {
@@ -39,7 +40,7 @@ abstract public class Shape {
   }
 
   /**
-   * Get the value of id
+   * @brief Get the value of id
    * @return the value of id
    */
   public long getId () {
@@ -47,7 +48,7 @@ abstract public class Shape {
   }
 
   /**
-   * Set the value of fill
+   * @brief Set the value of fill
    * @param newVar the new value of fill
    */
   public void setFill (char newVar) {
@@ -55,7 +56,7 @@ abstract public class Shape {
   }
 
   /**
-   * Get the value of fill
+   * @brief Get the value of fill
    * @return the value of fill
    */
   public char getFill () {
@@ -63,7 +64,7 @@ abstract public class Shape {
   }
 
   /**
-   * Set the value of thickness
+   * @brief Set the value of thickness
    * @param newVar the new value of thickness
    */
   public void setThickness (float newVar) {
@@ -71,7 +72,7 @@ abstract public class Shape {
   }
 
   /**
-   * Get the value of thickness
+   * @brief Get the value of thickness
    * @return the value of thickness
    */
   public float getThickness () {
@@ -79,7 +80,7 @@ abstract public class Shape {
   }
 
   /**
-   * Set the value of color
+   * @brief Set the value of color
    * @param newVar the new value of color
    */
   public void setColor (int newVar) {
@@ -87,7 +88,7 @@ abstract public class Shape {
   }
 
   /**
-   * Get the value of color
+   * @brief Get the value of color
    * @return the value of color
    */
   public int getColor () {
@@ -95,7 +96,7 @@ abstract public class Shape {
   }
 
   /**
-   * Set the value of rotation
+   * @brief Set the value of rotation
    * @param newVar the new value of rotation
    */
   public void setRotation (double newVar) {
@@ -103,7 +104,7 @@ abstract public class Shape {
   }
 
   /**
-   * Get the value of rotation
+   * @brief Get the value of rotation
    * @return the value of rotation
    */
   public double getRotation () {
@@ -115,6 +116,7 @@ abstract public class Shape {
   //
 
   /**
+   * @brief Returns a string representation of the shape.
    * @return       String
    */
   public String toString()
