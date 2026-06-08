@@ -1,6 +1,5 @@
 package pixel;
 
-<<<<<<< HEAD
 
 /**
  * @file Pixel.java
@@ -78,18 +77,4 @@ public class Pixel {
     return "Pixel[x=" + x + ", y=" + y + ", color=" + color + "]";
   }
 
-=======
-import shape.Color;
-
-public class Pixel {
-    public int px;
-    public int py;
-    public Color color;
-
-    public Pixel(int px, int py, Color color) {
-        this.px = px;
-        this.py = py;
-        this.color = color;
-    }
->>>>>>> 69c30e581e9ef21ebebe1c615df1175df3684726
 }
